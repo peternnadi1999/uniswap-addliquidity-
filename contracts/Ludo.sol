@@ -37,8 +37,8 @@ contract Ludo{
 
     function playerOneRoll(uint _id) view external returns(uint) {
         Player storage player = players[_id];
-        if (player.id == 1){
-            return  players[_id].id;
+        if (player.id != 1){
+            revert("Only owner player one can call this function");
         }
         uint randomNum = uint256(
             keccak256(
@@ -51,8 +51,11 @@ contract Ludo{
         return randomNum %6 + 1;
             
     }
-    function playerTwoRoll() view external returns(uint) {
-
+    function playerTwoRoll(uint _id) view external returns(uint) {
+         Player storage player = players[_id];
+        if (player.id != 2){
+            revert("Only owner player one can call this function");
+        }
         uint randomNum = uint256(
             keccak256(
                 abi.encodePacked(
@@ -64,8 +67,11 @@ contract Ludo{
         return randomNum %6 + 1;
             
     }
-    function playerThreeRoll() view external returns(uint) {
-
+    function playerThreeRoll(uint _id) view external returns(uint) {
+         Player storage player = players[_id];
+        if (player.id != 3){
+            revert("Only owner player one can call this function");
+        }
         uint randomNum = uint256(
             keccak256(
                 abi.encodePacked(
@@ -77,8 +83,11 @@ contract Ludo{
         return randomNum %6 + 1;
             
     }
-    function playerFourRoll() view external returns(uint) {
-
+    function playerFourRoll(uint _id) view external returns(uint) {
+         Player storage player = players[_id];
+        if (player.id != 4){
+            revert("Only owner player one can call this function");
+        }
         uint randomNum = uint256(
             keccak256(
                 abi.encodePacked(
