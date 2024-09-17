@@ -5,10 +5,16 @@ contract Ludo{
     address owner;
 
     uint initialposition = 0;
-    address public player;
+
+    struct Player{
+        uint id;
+        address player;
+        bool hasPlayed;
+    }
+
     uint playerCount;
 
-    mapping (uint => address) players;
+    mapping (uint => Player) players;
 
 
 
@@ -18,14 +24,60 @@ contract Ludo{
 
 
     function createPlayer() external {
+        if(playerCount == 4){
+            revert("No more space for player");
+        }
         playerCount++;
-        players[playerCount] = msg.sender;
+        players[playerCount] = Player(playerCount,msg.sender, false);
+        
     }
     function getPlayer(uint _id) view external returns(address) {
-        return players[_id];
+        return players[_id].player;
     }
 
-    function playerOneRoll() view external returns(uint) {
+    function playerOneRoll(uint _id) view external returns(uint) {
+        Player storage player = players[_id];
+        if (player.id == 1){
+            return  players[_id].id;
+        }
+        uint randomNum = uint256(
+            keccak256(
+                abi.encodePacked(
+                    block.timestamp, 
+                    block.difficulty,  
+                    msg.sender        
+                )
+            ));
+        return randomNum %6 + 1;
+            
+    }
+    function playerTwoRoll() view external returns(uint) {
+
+        uint randomNum = uint256(
+            keccak256(
+                abi.encodePacked(
+                    block.timestamp, 
+                    block.difficulty,  
+                    msg.sender        
+                )
+            ));
+        return randomNum %6 + 1;
+            
+    }
+    function playerThreeRoll() view external returns(uint) {
+
+        uint randomNum = uint256(
+            keccak256(
+                abi.encodePacked(
+                    block.timestamp, 
+                    block.difficulty,  
+                    msg.sender        
+                )
+            ));
+        return randomNum %6 + 1;
+            
+    }
+    function playerFourRoll() view external returns(uint) {
 
         uint randomNum = uint256(
             keccak256(
